@@ -1,0 +1,22 @@
+﻿{
+  "@@locale": "vi",
+  "appTitle": "Tin nhanh Việt",
+  "homeTitle": "Tin nổi bật",
+  "categories": "Chuyên mục",
+  "languageEnglish": "Tiếng Anh",
+  "languageVietnamese": "Tiếng Việt",
+  "changeLanguage": "Đổi ngôn ngữ",
+  "seeDetails": "Đọc chi tiết",
+  "publishedAt": "Đăng ngày {date}",
+  "newsListError": "Không tải được danh sách tin.",
+  "emptyState": "Hiện chưa có bài viết nào.",
+  "retry": "Thử lại",
+  "lastUpdated": "Cập nhật lần cuối {time}",
+  "searchHint": "Tìm kiếm tin tức...",
+  "category_all": "Tất cả",
+  "category_business": "Kinh doanh",
+  "category_culture": "Văn hóa",
+  "category_science": "Khoa học",
+  "category_sports": "Thể thao",
+  "category_technology": "Công nghệ"
+}

@@ -1,0 +1,67 @@
+﻿[
+  {
+    "id": "tech-ai-health",
+    "category": "technology",
+    "title_en": "AI transforms healthcare in Vietnam",
+    "title_vi": "AI đang thay đổi ngành y tế Việt Nam",
+    "summary_en": "Hospitals pilot AI triage and diagnostics platforms to ease doctor shortages.",
+    "summary_vi": "Nhiều bệnh viện thử nghiệm hệ thống AI để hỗ trợ sàng lọc và chẩn đoán, giảm tải cho bác sĩ.",
+    "content_en": "Major hospitals in Hanoi and Ho Chi Minh City are experimenting with AI-assisted triage kiosks that analyze symptoms, vital signs, and patient history in minutes. Doctors say early results show a 30% reduction in waiting times and more consistent diagnosis pathways for chronic illnesses.",
+    "content_vi": "Một số bệnh viện lớn tại Hà Nội và TP.HCM đang thử nghiệm các ki-ốt hỗ trợ sàng lọc bằng AI, có khả năng phân tích triệu chứng, sinh hiệu và tiền sử bệnh chỉ trong vài phút. Các bác sĩ cho biết hiệu quả ban đầu giúp giảm 30% thời gian chờ khám và chuẩn hóa quy trình chẩn đoán bệnh mãn tính.",
+    "source": "VNHealth",
+    "published_at": "2025-10-05T08:30:00Z",
+    "image_url": "https://images.unsplash.com/photo-1587502536263-92952db177b5"
+  },
+  {
+    "id": "economy-export-outlook",
+    "category": "business",
+    "title_en": "Vietnam's exports rebound as supply chains diversify",
+    "title_vi": "Xuất khẩu Việt Nam phục hồi nhờ đa dạng hóa chuỗi cung ứng",
+    "summary_en": "Electronics and agricultural shipments climb amid shifting regional trade routes.",
+    "summary_vi": "Ngành điện tử và nông sản tăng trưởng khi doanh nghiệp mở rộng thị trường mới.",
+    "content_en": "Government data shows a 12% year-on-year increase in export value for Q3. Analysts attribute the rebound to investment in logistics infrastructure and incentives that attract manufacturers relocating from mainland China.",
+    "content_vi": "Số liệu của Tổng cục Hải quan cho thấy kim ngạch xuất khẩu quý III tăng 12% so với cùng kỳ. Các chuyên gia đánh giá việc đầu tư hạ tầng logistics và chính sách ưu đãi đã thu hút nhiều doanh nghiệp dịch chuyển khỏi Trung Quốc đại lục.",
+    "source": "Economic Review",
+    "published_at": "2025-10-04T14:00:00Z",
+    "image_url": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d"
+  },
+  {
+    "id": "culture-music-festival",
+    "category": "culture",
+    "title_en": "Da Nang lights up with international music festival",
+    "title_vi": "Đà Nẵng rực rỡ với lễ hội âm nhạc quốc tế",
+    "summary_en": "Performers from 15 countries join local artists for seaside concerts and workshops.",
+    "summary_vi": "Nghệ sĩ từ 15 quốc gia tham gia biểu diễn và workshop bên bờ biển cùng nghệ sĩ trong nước.",
+    "content_en": "The week-long festival features jazz, EDM, and traditional folk collaborations. City officials expect more than 50,000 visitors, boosting tourism during the shoulder season.",
+    "content_vi": "Lễ hội kéo dài một tuần với các đêm nhạc jazz, EDM và hòa tấu dân gian đương đại. Chính quyền thành phố dự kiến thu hút hơn 50.000 du khách, góp phần kích cầu du lịch mùa thấp điểm.",
+    "source": "Culture Beat",
+    "published_at": "2025-10-03T18:15:00Z",
+    "image_url": "https://images.unsplash.com/photo-1506157786151-b8491531f063"
+  },
+  {
+    "id": "sports-marathon",
+    "category": "sports",
+    "title_en": "Hanoi Marathon sets new participation record",
+    "title_vi": "Giải marathon Hà Nội lập kỷ lục người tham gia",
+    "summary_en": "Over 35,000 runners take to the streets with expanded routes and sustainability pledges.",
+    "summary_vi": "Hơn 35.000 vận động viên chinh phục cung đường mới, hướng tới mục tiêu xanh hóa sự kiện.",
+    "content_en": "Organizers introduced a plastic-free hydration system and partnered with local schools to collect shoes for recycling. Elite racers from Kenya, Japan, and Thailand topped the podium in the 42K category.",
+    "content_vi": "Ban tổ chức áp dụng hệ thống tiếp nước không dùng nhựa và phối hợp với các trường học thu gom giày thể thao tái chế. Các vận động viên ưu tú đến từ Kenya, Nhật Bản và Thái Lan giành thứ hạng cao ở cự ly 42 km.",
+    "source": "Run Asia",
+    "published_at": "2025-10-02T05:45:00Z",
+    "image_url": "https://images.unsplash.com/photo-1508609349937-5ec4ae374ebf"
+  },
+  {
+    "id": "science-space-startup",
+    "category": "science",
+    "title_en": "Vietnamese startup plans microsatellite launch",
+    "title_vi": "Startup Việt Nam chuẩn bị phóng vệ tinh siêu nhỏ",
+    "summary_en": "The company secures funding to deploy Earth observation satellites for agriculture analytics.",
+    "summary_vi": "Doanh nghiệp huy động vốn để phát triển vệ tinh quan sát Trái Đất phục vụ nông nghiệp chính xác.",
+    "content_en": "Orbital Light, a Ho Chi Minh City-based startup, raised  million in Series A funding to launch two microsatellites by 2026. The data platform aims to give rice farmers real-time irrigation and pest alerts.",
+    "content_vi": "Orbital Light, startup tại TP.HCM, vừa gọi vốn Series A trị giá 12 triệu USD để phóng hai vệ tinh siêu nhỏ vào năm 2026. Nền tảng dữ liệu cung cấp cảnh báo tưới tiêu và sâu bệnh theo thời gian thực cho nông dân trồng lúa.",
+    "source": "Space Frontier",
+    "published_at": "2025-10-01T11:20:00Z",
+    "image_url": "https://images.unsplash.com/photo-1473923377535-0002805f57e8"
+  }
+]

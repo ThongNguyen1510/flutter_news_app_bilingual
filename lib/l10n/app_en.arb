@@ -1,0 +1,36 @@
+﻿{
+  "@@locale": "en",
+  "appTitle": "Viet News",
+  "homeTitle": "Top stories",
+  "categories": "Categories",
+  "languageEnglish": "English",
+  "languageVietnamese": "Vietnamese",
+  "changeLanguage": "Change language",
+  "seeDetails": "Read detail",
+  "publishedAt": "Published {date}",
+  "@publishedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "newsListError": "Unable to load the latest stories.",
+  "emptyState": "No news available right now.",
+  "retry": "Retry",
+  "lastUpdated": "Last updated {time}",
+  "@lastUpdated": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "searchHint": "Search news...",
+  "category_all": "All",
+  "category_business": "Business",
+  "category_culture": "Culture",
+  "category_science": "Science",
+  "category_sports": "Sports",
+  "category_technology": "Technology"
+}

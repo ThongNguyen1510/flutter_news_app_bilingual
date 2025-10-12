@@ -1,0 +1,25 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "flutter_news_app_bilingual",
+      "request": "launch",
+      "type": "dart",
+      "toolArgs": ["--dart-define=NEWS_API_KEY=YOUR_KEY_HERE"]
+    },
+    {
+      "name": "flutter_news_app_bilingual (profile mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "toolArgs": ["--dart-define=NEWS_API_KEY=YOUR_KEY_HERE"]
+    },
+    {
+      "name": "flutter_news_app_bilingual (release mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "toolArgs": ["--dart-define=NEWS_API_KEY=YOUR_KEY_HERE"]
+    }
+  ]
+}
