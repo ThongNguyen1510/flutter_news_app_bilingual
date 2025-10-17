@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_news_app_bilingual/main.dart';
 import 'package:flutter_news_app_bilingual/src/data/news_repository.dart';
+import 'package:flutter_news_app_bilingual/src/data/news_source.dart';
 import 'package:flutter_news_app_bilingual/src/models/news_article.dart';
 
 void main() {
@@ -11,7 +12,7 @@ void main() {
     await tester.pumpWidget(NewsApp(repository: FakeNewsRepository()));
     await tester.pumpAndSettle();
 
-    expect(find.text('Viet News'), findsOneWidget);
+    expect(find.text('Tin nhanh Việt'), findsOneWidget);
   });
 }
 
@@ -19,6 +20,7 @@ class FakeNewsRepository extends NewsRepository {
   @override
   Future<List<NewsArticle>> fetchArticles({
     required Locale locale,
+    required NewsSource source,
     String category = 'all',
     String keyword = '',
     bool forceRefresh = false,
@@ -36,7 +38,15 @@ class FakeNewsRepository extends NewsRepository {
         source: 'Test Source',
         publishedAt: DateTime.now(),
         imageUrl: '',
+        url: 'https://example.com',
       ),
     ];
   }
+
+  @override
+  Future<String?> fetchFullContent({
+    required NewsArticle article,
+    required Locale locale,
+  }) async =>
+      article.contentFor(locale);
 }

@@ -6,6 +6,8 @@
   "languageEnglish": "English",
   "languageVietnamese": "Vietnamese",
   "changeLanguage": "Change language",
+  "tabVietnam": "Vietnam news",
+  "tabInternational": "World news",
   "seeDetails": "Read detail",
   "publishedAt": "Published {date}",
   "@publishedAt": {

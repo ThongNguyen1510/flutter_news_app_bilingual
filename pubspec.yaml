@@ -16,6 +16,15 @@ dependencies:
   intl: ^0.20.2
   provider: ^6.1.2
   http: ^1.2.2
+  xml: ^6.5.0
+  flex_color_scheme: ^8.3.0
+  google_fonts: ^6.1.0
+  cached_network_image: ^3.3.1
+  shimmer: ^3.0.0
+  smooth_page_indicator: ^1.1.0
+  flutter_widget_from_html: ^0.17.1
+  html: ^0.15.4
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:

@@ -14,6 +14,7 @@ class NewsArticle {
     required this.source,
     required this.publishedAt,
     required this.imageUrl,
+    required this.url,
   });
 
   final String id;
@@ -27,6 +28,7 @@ class NewsArticle {
   final String source;
   final DateTime publishedAt;
   final String imageUrl;
+  final String url;
 
   factory NewsArticle.fromJson(Map<String, dynamic> json) {
     return NewsArticle(
@@ -41,6 +43,7 @@ class NewsArticle {
       source: json['source'] as String,
       publishedAt: DateTime.parse(json['published_at'] as String),
       imageUrl: json['image_url'] as String,
+      url: (json['url'] as String?) ?? '',
     );
   }
 
@@ -81,6 +84,7 @@ class NewsArticle {
       source: source,
       publishedAt: publishedAt,
       imageUrl: imageUrl,
+      url: link ?? '',
     );
   }
 

@@ -1,4 +1,4 @@
-﻿{
+{
   "@@locale": "vi",
   "appTitle": "Tin nhanh Việt",
   "homeTitle": "Tin nổi bật",
@@ -6,6 +6,8 @@
   "languageEnglish": "Tiếng Anh",
   "languageVietnamese": "Tiếng Việt",
   "changeLanguage": "Đổi ngôn ngữ",
+  "tabVietnam": "Tin Việt",
+  "tabInternational": "Tin Quốc tế",
   "seeDetails": "Đọc chi tiết",
   "publishedAt": "Đăng ngày {date}",
   "newsListError": "Không tải được danh sách tin.",
