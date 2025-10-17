@@ -27,6 +27,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get changeLanguage => 'Change language';
 
   @override
+  String get tabVietnam => 'Vietnam news';
+
+  @override
+  String get tabInternational => 'World news';
+
+  @override
   String get seeDetails => 'Read detail';
 
   @override

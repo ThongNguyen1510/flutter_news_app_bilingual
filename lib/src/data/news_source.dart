@@ -1,0 +1,1 @@
+enum NewsSource { vietnam, international }

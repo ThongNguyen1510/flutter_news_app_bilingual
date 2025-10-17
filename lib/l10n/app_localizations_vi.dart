@@ -27,6 +27,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String get changeLanguage => 'Đổi ngôn ngữ';
 
   @override
+  String get tabVietnam => 'Tin Việt';
+
+  @override
+  String get tabInternational => 'Tin Quốc tế';
+
+  @override
   String get seeDetails => 'Đọc chi tiết';
 
   @override

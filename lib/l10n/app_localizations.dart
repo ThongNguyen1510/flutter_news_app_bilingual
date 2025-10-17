@@ -134,6 +134,18 @@ abstract class AppLocalizations {
   /// **'Change language'**
   String get changeLanguage;
 
+  /// No description provided for @tabVietnam.
+  ///
+  /// In en, this message translates to:
+  /// **'Vietnam news'**
+  String get tabVietnam;
+
+  /// No description provided for @tabInternational.
+  ///
+  /// In en, this message translates to:
+  /// **'World news'**
+  String get tabInternational;
+
   /// No description provided for @seeDetails.
   ///
   /// In en, this message translates to:

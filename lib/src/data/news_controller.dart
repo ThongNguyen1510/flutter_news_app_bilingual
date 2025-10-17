@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/news_article.dart';
 import 'news_repository.dart';
+import 'news_source.dart';
 
 /// Controls fetching, filtering, and exposing the news feed state.
 class NewsController extends ChangeNotifier {
@@ -15,7 +16,8 @@ class NewsController extends ChangeNotifier {
   DateTime? _lastUpdated;
   String _selectedCategory = 'all';
   String _searchTerm = '';
-  Locale _locale = const Locale('en');
+  Locale _locale = const Locale('vi');
+  NewsSource _source = NewsSource.vietnam;
 
   List<NewsArticle> get articles => _articles;
   bool get isLoading => _isLoading;
@@ -24,6 +26,7 @@ class NewsController extends ChangeNotifier {
   String get selectedCategory => _selectedCategory;
   String get searchTerm => _searchTerm;
   Locale get locale => _locale;
+  NewsSource get source => _source;
 
   Future<void> loadArticles({bool forceRefresh = false}) async {
     if (_isLoading && !forceRefresh) {
@@ -37,6 +40,7 @@ class NewsController extends ChangeNotifier {
     try {
       final fetched = await _repository.fetchArticles(
         locale: _locale,
+        source: _source,
         category: _selectedCategory,
         keyword: _searchTerm,
         forceRefresh: forceRefresh,
@@ -69,5 +73,24 @@ class NewsController extends ChangeNotifier {
     if (_locale == locale) return;
     _locale = locale;
     loadArticles(forceRefresh: true);
+  }
+
+  void updateSource(NewsSource source, Locale locale) {
+    bool shouldReload = _source != source || _locale != locale;
+    if (_selectedCategory != 'all') {
+      _selectedCategory = 'all';
+      shouldReload = true;
+    }
+    if (_searchTerm.isNotEmpty) {
+      _searchTerm = '';
+      shouldReload = true;
+    }
+    _source = source;
+    _locale = locale;
+    if (shouldReload) {
+      loadArticles(forceRefresh: true);
+    } else {
+      notifyListeners();
+    }
   }
 }

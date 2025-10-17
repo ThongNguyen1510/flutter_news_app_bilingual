@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Keeps track of the current locale and notifies listeners on change.
 class LocaleController extends ChangeNotifier {
-  LocaleController({Locale initialLocale = const Locale('en')})
+  LocaleController({Locale initialLocale = const Locale('vi')})
     : _locale = initialLocale;
 
   Locale _locale;

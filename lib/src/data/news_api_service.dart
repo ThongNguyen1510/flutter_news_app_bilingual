@@ -9,7 +9,7 @@ class NewsApiException implements Exception {
   final String message;
 
   @override
-  String toString() => 'NewsApiException: ';
+  String toString() => 'NewsApiException: $message';
 }
 
 class NewsApiService {
@@ -50,7 +50,9 @@ class NewsApiService {
     final response = await _client.get(uri, headers: {'X-Api-Key': _apiKey});
 
     if (response.statusCode != 200) {
-      throw NewsApiException('Request failed with status : ');
+      throw NewsApiException(
+        'Request failed with status ${response.statusCode}: ${response.body}',
+      );
     }
 
     final decoded = json.decode(response.body) as Map<String, dynamic>;
@@ -68,9 +70,11 @@ class NewsApiService {
 
   String _countryForLocale(Locale locale) {
     switch (locale.languageCode) {
-      case 'vi':
-        return 'vn';
+      case 'us':
       case 'en':
+        return 'us';
+      case 'gb':
+        return 'gb';
       default:
         return 'us';
     }
