@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../models/news_article.dart';
 
 class FeaturedCarousel extends StatefulWidget {
@@ -13,11 +14,15 @@ class FeaturedCarousel extends StatefulWidget {
     required this.articles,
     required this.locale,
     required this.onArticleTap,
+    required this.isFavorite,
+    required this.onToggleFavorite,
   });
 
   final List<NewsArticle> articles;
   final Locale locale;
   final ValueChanged<NewsArticle> onArticleTap;
+  final bool Function(NewsArticle) isFavorite;
+  final void Function(NewsArticle) onToggleFavorite;
 
   @override
   State<FeaturedCarousel> createState() => _FeaturedCarouselState();
@@ -55,6 +60,8 @@ class _FeaturedCarouselState extends State<FeaturedCarousel> {
               ).format(article.publishedAt);
               final summary = article.summaryFor(widget.locale);
               final bullet = String.fromCharCode(0x2022);
+              final isFav = widget.isFavorite(article);
+              final l10n = AppLocalizations.of(context);
 
               return GestureDetector(
                 onTap: () => widget.onArticleTap(article),
@@ -120,7 +127,7 @@ class _FeaturedCarouselState extends State<FeaturedCarousel> {
                               color: theme.colorScheme.primary.withAlpha(
                                 (0.2 * 255).round(),
                               ),
-                            ),
+                          ),
                           Container(
                             decoration: const BoxDecoration(
                               gradient: LinearGradient(
@@ -139,6 +146,29 @@ class _FeaturedCarouselState extends State<FeaturedCarousel> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: Material(
+                                    color: Colors.black38,
+                                    shape: const CircleBorder(),
+                                    child: IconButton(
+                                      tooltip: isFav
+                                          ? l10n.favoritesRemoveTooltip
+                                          : l10n.favoritesSaveTooltip,
+                                      icon: Icon(
+                                        isFav
+                                            ? Icons.favorite
+                                            : Icons.favorite_border_outlined,
+                                      ),
+                                      color: isFav
+                                          ? theme.colorScheme.error
+                                          : Colors.white,
+                                      onPressed: () =>
+                                          widget.onToggleFavorite(article),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
                                 Container(
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 12,

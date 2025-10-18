@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "539858349367",
+    "firebase_url": "https://flutter-firebase-51e66-default-rtdb.firebaseio.com",
+    "project_id": "flutter-firebase-51e66",
+    "storage_bucket": "flutter-firebase-51e66.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539858349367:android:f9bdc38609785f42287eb2",
+        "android_client_info": {
+          "package_name": "com.example.flutter_news_app_bilingual"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQzWBjI0volRlYwChoSey0cfc-QPy2qt0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539858349367:android:af0eaeafde833657287eb2",
+        "android_client_info": {
+          "package_name": "com.example.vd5_vothanhtung"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQzWBjI0volRlYwChoSey0cfc-QPy2qt0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

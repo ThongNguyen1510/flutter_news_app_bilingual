@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../data/news_repository.dart';
 import '../../models/news_article.dart';
+import 'article_webview_page.dart';
 
 class ArticleDetailPage extends StatefulWidget {
   const ArticleDetailPage({super.key, required this.article});
@@ -140,7 +140,10 @@ class _ArticleDetailPageState extends State<ArticleDetailPage> {
             bodyChildren.add(const SizedBox(height: 24));
             bodyChildren.add(
               FilledButton.icon(
-                onPressed: () => _openExternal(widget.article.url),
+                onPressed: () => _openInApp(
+                  widget.article.url,
+                  context,
+                ),
                 icon: const Icon(Icons.open_in_new),
                 label: Text(l10n.seeDetails),
               ),
@@ -158,9 +161,17 @@ class _ArticleDetailPageState extends State<ArticleDetailPage> {
     );
   }
 
-  Future<void> _openExternal(String url) async {
+  void _openInApp(String url, BuildContext context) {
     final uri = Uri.tryParse(url);
     if (uri == null) return;
-    await launchUrl(uri, mode: LaunchMode.externalApplication);
+    final locale = Localizations.localeOf(context);
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => ArticleWebViewPage(
+          uri: uri,
+          title: widget.article.titleFor(locale),
+        ),
+      ),
+    );
   }
 }

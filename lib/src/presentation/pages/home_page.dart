@@ -5,11 +5,15 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../l10n/app_localizations.dart';
+import '../../data/article_tracker.dart';
+import '../../data/auth_controller.dart';
 import '../../data/locale_controller.dart';
 import '../../data/news_controller.dart';
 import '../../data/news_source.dart';
 import '../../models/news_article.dart';
+import '../../utils/auth_dialog.dart';
 import '../widgets/article_card.dart';
+import '../widgets/auth_button.dart';
 import '../widgets/category_selector.dart';
 import '../widgets/featured_carousel.dart';
 import 'article_detail_page.dart';
@@ -54,6 +58,9 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.appTitle),
+        actions: const [
+          AuthButton(),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(52),
           child: Padding(
@@ -87,6 +94,8 @@ class _HomePageState extends State<HomePage>
         builder: (context, controller, _) {
           final articles = controller.articles;
           final featuredCount = min(3, articles.length);
+          final tracker = context.watch<ArticleTracker>();
+          final auth = context.read<AuthController>();
 
           final children = <Widget>[
             Padding(
@@ -193,6 +202,19 @@ class _HomePageState extends State<HomePage>
                   articles: articles.take(featuredCount).toList(),
                   locale: locale,
                   onArticleTap: (article) => _openDetail(context, article),
+                  isFavorite: (article) => tracker.isFavorite(article.id),
+                  onToggleFavorite: (article) {
+                    if (!_ensureSignedIn(
+                      context,
+                      l10n,
+                      tracker,
+                      auth,
+                      l10n.favoritesLoginRequired,
+                    )) {
+                      return;
+                    }
+                    tracker.toggleFavorite(article);
+                  },
                 ),
               );
             }
@@ -224,6 +246,19 @@ class _HomePageState extends State<HomePage>
                   locale: locale,
                   onTap: () => _openDetail(context, article),
                   ctaLabel: l10n.seeDetails,
+                  isFavorite: tracker.isFavorite(article.id),
+                  onToggleFavorite: () {
+                    if (!_ensureSignedIn(
+                      context,
+                      l10n,
+                      tracker,
+                      auth,
+                      l10n.favoritesLoginRequired,
+                    )) {
+                      return;
+                    }
+                    tracker.toggleFavorite(article);
+                  },
                 ),
               );
             }
@@ -276,9 +311,37 @@ class _HomePageState extends State<HomePage>
   }
 
   void _openDetail(BuildContext context, NewsArticle article) {
+    context.read<ArticleTracker>().addToHistory(article);
     Navigator.of(context).push(
       MaterialPageRoute(builder: (_) => ArticleDetailPage(article: article)),
     );
+  }
+
+  bool _ensureSignedIn(
+    BuildContext context,
+    AppLocalizations l10n,
+    ArticleTracker tracker,
+    AuthController auth,
+    String message,
+  ) {
+    if (tracker.hasSignedInUser) {
+      return true;
+    }
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(message),
+          action: SnackBarAction(
+            label: l10n.authSignIn,
+            onPressed: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              showAuthDialog(context, auth, isRegister: false);
+            },
+          ),
+        ),
+      );
+    return false;
   }
 }
 

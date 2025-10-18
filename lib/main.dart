@@ -1,16 +1,25 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import 'l10n/app_localizations.dart';
+import 'firebase_options.dart';
+import 'src/data/article_tracker.dart';
+import 'src/data/auth_controller.dart';
 import 'src/data/locale_controller.dart';
 import 'src/data/news_controller.dart';
 import 'src/data/news_repository.dart';
+import 'src/data/settings_controller.dart';
 import 'src/presentation/pages/home_page.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(NewsApp());
 }
 
@@ -90,6 +99,13 @@ class NewsApp extends StatelessWidget {
       providers: [
         Provider<NewsRepository>.value(value: _repository),
         ChangeNotifierProvider(create: (_) => LocaleController()),
+        ChangeNotifierProvider(create: (_) => AuthController()),
+        ChangeNotifierProvider(create: (_) => SettingsController()),
+        ChangeNotifierProvider(
+          create: (context) => ArticleTracker(
+            authController: context.read<AuthController>(),
+          ),
+        ),
         ChangeNotifierProvider(
           create: (context) {
             final repo = context.read<NewsRepository>();
@@ -99,8 +115,8 @@ class NewsApp extends StatelessWidget {
           },
         ),
       ],
-      child: Consumer<LocaleController>(
-        builder: (context, localeController, _) {
+      child: Consumer2<LocaleController, SettingsController>(
+        builder: (context, localeController, settingsController, _) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Viet News',
@@ -114,7 +130,16 @@ class NewsApp extends StatelessWidget {
             ],
             theme: _buildLightTheme(),
             darkTheme: _buildDarkTheme(),
-            themeMode: ThemeMode.system,
+            themeMode: settingsController.themeMode,
+            builder: (context, child) {
+              final media = MediaQuery.of(context);
+              return MediaQuery(
+                data: media.copyWith(
+                  textScaler: TextScaler.linear(settingsController.textScale),
+                ),
+                child: child ?? const SizedBox.shrink(),
+              );
+            },
             home: const HomePage(),
           );
         },

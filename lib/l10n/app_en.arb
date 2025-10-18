@@ -1,4 +1,4 @@
-﻿{
+{
   "@@locale": "en",
   "appTitle": "Viet News",
   "homeTitle": "Top stories",
@@ -34,5 +34,83 @@
   "category_culture": "Culture",
   "category_science": "Science",
   "category_sports": "Sports",
-  "category_technology": "Technology"
+  "category_technology": "Technology",
+  "authPanelTitle": "Account",
+  "authPanelGuest": "Browsing as guest",
+  "authPanelPrompt": "Sign in to synchronise your reading experience.",
+  "authPanelGreeting": "Hello {name}",
+  "@authPanelGreeting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "authSignIn": "Sign in",
+  "authRegister": "Register",
+  "authSignOut": "Sign out",
+  "authEmailLabel": "Email",
+  "authPasswordLabel": "Password",
+  "authConfirmPasswordLabel": "Confirm password",
+  "authCancel": "Cancel",
+  "authDialogSignInTitle": "Sign in",
+  "authDialogRegisterTitle": "Create account",
+  "authErrorInvalidCredentials": "Email or password is incorrect.",
+  "authErrorEmailInUse": "This email is already in use.",
+  "authErrorWeakPassword": "Password must be at least 6 characters.",
+  "authErrorPasswordMismatch": "Passwords do not match.",
+  "authErrorInvalidEmail": "Email format is invalid.",
+  "authErrorOperationNotAllowed": "Email & password sign-in is disabled for this project.",
+  "authErrorTooManyRequests": "Too many attempts. Try again later.",
+  "authErrorUnknown": "Something went wrong. Please try again.",
+  "menuFavorites": "Favorite articles",
+  "menuHistory": "Reading history",
+  "favoritesLoginRequired": "Please sign in to view your saved articles.",
+  "favoritesTitle": "Favorites",
+  "favoritesEmpty": "You haven't saved any articles yet.",
+  "favoritesSaveTooltip": "Save to favorites",
+  "favoritesRemoveTooltip": "Remove from favorites",
+  "historyTitle": "Reading history",
+  "historyEmpty": "No articles read yet.",
+  "historyClear": "Clear history",
+  "historyClearConfirm": "This will remove your entire reading history.",
+  "historyLoginRequired": "Please sign in to view your reading history.",
+  "accountPageTitle": "Account & settings",
+  "accountOverviewTitle": "Account",
+  "accountSignInDescription": "Sign in to manage your account and saved content.",
+  "accountProfileButton": "View profile",
+  "accountAppearanceTitle": "Appearance",
+  "themeModeLabel": "Theme",
+  "themeModeSystem": "System default",
+  "themeModeLight": "Light",
+  "themeModeDark": "Dark",
+  "textSizeLabel": "Text size",
+  "textSizeSmall": "Smaller",
+  "textSizeLarge": "Larger",
+  "accountItemsCount": "{count} items",
+  "@accountItemsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "profilePageTitle": "User profile",
+  "profileDisplayNameLabel": "Display name",
+  "profileDisplayNameHint": "How your name appears in the app",
+  "profileUpdateButton": "Save changes",
+  "profileResetButton": "Reset",
+  "profileUpdateSuccess": "Profile updated successfully.",
+  "profileEmailLabel": "Email",
+  "profileUidLabel": "User ID",
+  "profileVerifiedLabel": "Email verification",
+  "profileVerifiedYes": "Verified",
+  "profileVerifiedNo": "Not verified",
+  "profileCreationLabel": "Created on",
+  "profileLastSignInLabel": "Last sign-in",
+  "profileErrorInvalidDisplayName": "Display name must not be empty.",
+  "profileErrorRequiresRecentLogin": "Please sign in again to continue.",
+  "profileErrorUpdateFailed": "Could not update your profile. Please try again.",
+  "profileSignInRequired": "Please sign in to view your profile."
 }
+
