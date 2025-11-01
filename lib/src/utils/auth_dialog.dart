@@ -96,6 +96,43 @@ Future<void> showAuthDialog(
                     ),
                   ),
                 ],
+                const SizedBox(height: 12),
+                Row(
+                  children: const [
+                    Expanded(child: Divider()),
+                    SizedBox(width: 8),
+                    Text('or'),
+                    SizedBox(width: 8),
+                    Expanded(child: Divider()),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    icon: const Icon(Icons.login),
+                    label: const Text('Continue with Google'),
+                    onPressed: submitting
+                        ? null
+                        : () async {
+                            FocusScope.of(dialogContext).unfocus();
+                            setState(() {
+                              submitting = true;
+                              localError = null;
+                            });
+                            final ok = await auth.signInWithGoogle();
+                            if (!dialogContext.mounted) return;
+                            if (ok) {
+                              Navigator.of(dialogContext).pop();
+                            } else {
+                              setState(() {
+                                submitting = false;
+                                localError = authErrorMessage(l10n, auth.errorCode);
+                              });
+                            }
+                          },
+                  ),
+                ),
                 if (localError != null) ...[
                   const SizedBox(height: 12),
                   Text(

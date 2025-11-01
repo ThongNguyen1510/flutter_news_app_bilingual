@@ -12,18 +12,20 @@ const _kHistoryKey = 'history';
 const _kHistoryLimit = 50;
 
 /// Maintains user-local favorites and reading history.
+/// Ghi chú (VI): Theo dõi bài viết yêu thích và lịch sử đọc cho từng người dùng
+/// (theo UID). Dữ liệu được lưu cục bộ bằng SharedPreferences.
 class ArticleTracker extends ChangeNotifier {
   ArticleTracker({required AuthController authController})
     : _authController = authController {
-    _authListener = _handleAuthChanged;
+    _authListener = _handleAuthChanged; // Lắng nghe thay đổi đăng nhập
     _authController.addListener(_authListener!);
     _handleAuthChanged();
   }
 
   final AuthController _authController;
-  final List<SavedArticle> _favorites = [];
-  final List<SavedArticle> _history = [];
-  final Set<String> _favoriteIds = <String>{};
+  final List<SavedArticle> _favorites = []; // Danh sách yêu thích
+  final List<SavedArticle> _history = []; // Lịch sử đọc
+  final Set<String> _favoriteIds = <String>{}; // Tập ID để check nhanh
   String? _currentUserId;
   VoidCallback? _authListener;
   Future<void>? _pendingLoad;
@@ -34,6 +36,7 @@ class ArticleTracker extends ChangeNotifier {
 
   bool isFavorite(String articleId) => _favoriteIds.contains(articleId);
 
+  // Thêm/bỏ yêu thích; tự động lưu lại
   Future<void> toggleFavorite(NewsArticle article) async {
     await _ensureLoaded();
     if (_currentUserId == null) return;
@@ -50,6 +53,7 @@ class ArticleTracker extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Thêm vào lịch sử đọc (giới hạn số lượng), tự động lưu lại
   Future<void> addToHistory(NewsArticle article) async {
     await _ensureLoaded();
     if (_currentUserId == null) return;
@@ -63,6 +67,7 @@ class ArticleTracker extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Xóa toàn bộ lịch sử đọc cho user hiện tại
   Future<void> clearHistory() async {
     await _ensureLoaded();
     if (_currentUserId == null) return;
@@ -71,6 +76,7 @@ class ArticleTracker extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Khi trạng thái đăng nhập thay đổi: reset dữ liệu và tải lại theo UID mới
   void _handleAuthChanged() {
     final newUserId = _authController.user?.uid;
     if (newUserId == _currentUserId) {
@@ -87,6 +93,7 @@ class ArticleTracker extends ChangeNotifier {
     }
   }
 
+  // Đảm bảo dữ liệu đã được load cho UID hiện tại (lazy-load 1 lần)
   Future<void> _ensureLoaded() async {
     final uid = _currentUserId;
     if (uid == null) {
@@ -96,6 +103,7 @@ class ArticleTracker extends ChangeNotifier {
     await pending;
   }
 
+  // Tải favorites/history từ SharedPreferences theo UID
   Future<void> _loadForUser(String userId) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -123,6 +131,7 @@ class ArticleTracker extends ChangeNotifier {
     }
   }
 
+  // Lưu danh sách vào SharedPreferences (theo khóa riêng của từng UID)
   Future<void> _persist(String key, List<SavedArticle> items) async {
     final uid = _currentUserId;
     if (uid == null) return;

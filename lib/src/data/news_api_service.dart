@@ -23,6 +23,8 @@ class NewsApiService {
   final http.Client _client;
   final String _apiKey;
 
+  // Gọi NewsAPI để lấy danh sách bài viết theo quốc gia/danh mục/từ khóa
+  // Lưu ý: cần truyền NEWS_API_KEY qua --dart-define khi chạy app
   Future<List<Map<String, dynamic>>> fetchTopHeadlines({
     required Locale locale,
     String? category,
@@ -46,6 +48,7 @@ class NewsApiService {
       queryParameters['q'] = query.trim();
     }
 
+    // Tạo URL với query phù hợp và gọi API kèm header X-Api-Key
     final uri = Uri.https(_authority, _topHeadlinesPath, queryParameters);
     final response = await _client.get(uri, headers: {'X-Api-Key': _apiKey});
 
@@ -55,6 +58,7 @@ class NewsApiService {
       );
     }
 
+    // Kiểm tra phản hồi và parse JSON an toàn
     final decoded = json.decode(response.body) as Map<String, dynamic>;
     if (decoded['status'] != 'ok') {
       throw NewsApiException(decoded['message'] as String? ?? 'Unknown error');
@@ -68,6 +72,7 @@ class NewsApiService {
     return articles.whereType<Map<String, dynamic>>().toList(growable: false);
   }
 
+  // Xác định mã quốc gia theo locale (đơn giản hóa)
   String _countryForLocale(Locale locale) {
     switch (locale.languageCode) {
       case 'us':

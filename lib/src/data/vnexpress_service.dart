@@ -31,6 +31,7 @@ class VnExpressService {
 
   final http.Client _client;
 
+  // Lấy dữ liệu bài viết từ RSS của VNExpress theo danh mục và từ khóa
   Future<List<Map<String, dynamic>>> fetchArticles({
     required String category,
     String? keyword,
@@ -44,6 +45,7 @@ class VnExpressService {
       );
     }
 
+    // Parse XML RSS và duyệt các item
     final document = XmlDocument.parse(utf8.decode(response.bodyBytes));
     final items = document.findAllElements('item');
 
@@ -64,6 +66,7 @@ class VnExpressService {
       final enclosureUrl =
           item.getElement('enclosure')?.getAttribute('url')?.trim() ?? '';
 
+      // Lọc theo từ khóa (đã chuẩn hóa, bỏ dấu)
       if (normalizedKeyword != null && normalizedKeyword.isNotEmpty) {
         final combinedText = _normalize('$title $description');
         if (!combinedText.contains(normalizedKeyword)) {
@@ -88,6 +91,7 @@ class VnExpressService {
   Future<String?> fetchFullContent(String url) async {
     if (url.isEmpty) return null;
 
+    // Ưu tiên phiên bản AMP (nhẹ và dễ trích nội dung)
     final ampUrl = _toAmpUrl(url);
     final response = await _client.get(Uri.parse(ampUrl));
     if (response.statusCode != 200) {
@@ -99,6 +103,7 @@ class VnExpressService {
     return _extractArticleHtml(response.bodyBytes);
   }
 
+  // Parse ngày tháng từ RSS, fallback về hiện tại nếu lỗi
   DateTime _parseRssDate(String? value) {
     if (value == null || value.isEmpty) {
       return DateTime.now();
@@ -111,6 +116,7 @@ class VnExpressService {
     }
   }
 
+  // Loại bỏ tag HTML và decode một số entity cơ bản
   String _stripHtml(String input) {
     final decoded = input
         .replaceAll(RegExp(r'<[^>]*>'), ' ')
@@ -127,6 +133,7 @@ class VnExpressService {
     return decoded.replaceAll(RegExp(r'\s+'), ' ').trim();
   }
 
+  // Chuẩn hóa chuỗi (lowercase, bỏ dấu) để so khớp từ khóa đơn giản
   String _normalize(String input) {
     const accentGroups = {
       'a': 'áàạảãâấầậẩẫăắằặẳẵ',
@@ -145,6 +152,7 @@ class VnExpressService {
     return output;
   }
 
+  // Chuyển URL sang dạng AMP nếu có thể
   String _toAmpUrl(String url) {
     try {
       final uri = Uri.parse(url);
@@ -159,6 +167,7 @@ class VnExpressService {
     }
   }
 
+  // Trích phần nội dung chính của bài viết từ HTML bằng một số selector thường gặp
   String? _extractArticleHtml(List<int> bodyBytes) {
     final document = html_parser.parse(utf8.decode(bodyBytes));
     final selectors = <String>[

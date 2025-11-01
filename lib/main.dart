@@ -17,6 +17,7 @@ import 'src/presentation/pages/home_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // Khởi tạo Firebase trước khi chạy app
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -29,6 +30,7 @@ class NewsApp extends StatelessWidget {
 
   final NewsRepository _repository;
 
+  // Cấu hình theme sáng (Material 3 + FlexColorScheme + Google Fonts)
   ThemeData _buildLightTheme() {
     final base = FlexThemeData.light(
       scheme: FlexScheme.espresso,
@@ -65,6 +67,7 @@ class NewsApp extends StatelessWidget {
     );
   }
 
+  // Cấu hình theme tối tương tự theme sáng
   ThemeData _buildDarkTheme() {
     final base = FlexThemeData.dark(
       scheme: FlexScheme.espresso,
@@ -97,6 +100,7 @@ class NewsApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        // Cung cấp các lớp State/Controller cho toàn app
         Provider<NewsRepository>.value(value: _repository),
         ChangeNotifierProvider(create: (_) => LocaleController()),
         ChangeNotifierProvider(create: (_) => AuthController()),
@@ -110,7 +114,7 @@ class NewsApp extends StatelessWidget {
           create: (context) {
             final repo = context.read<NewsRepository>();
             final controller = NewsController(repo);
-            controller.loadArticles();
+            controller.loadArticles(); // Tải dữ liệu lần đầu
             return controller;
           },
         ),
@@ -135,6 +139,7 @@ class NewsApp extends StatelessWidget {
               final media = MediaQuery.of(context);
               return MediaQuery(
                 data: media.copyWith(
+                  // Điều chỉnh cỡ chữ theo SettingsController
                   textScaler: TextScaler.linear(settingsController.textScale),
                 ),
                 child: child ?? const SizedBox.shrink(),

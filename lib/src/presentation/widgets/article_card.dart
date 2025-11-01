@@ -90,13 +90,16 @@ class ArticleCard extends StatelessWidget {
                             : l10n.favoritesSaveTooltip,
                       ),
                     ),
-                    Container(
-                      height: 200,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [Colors.transparent, Colors.black54],
+                    IgnorePointer(
+                      ignoring: true,
+                      child: Container(
+                        height: 200,
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [Colors.transparent, Colors.black54],
+                          ),
                         ),
                       ),
                     ),
