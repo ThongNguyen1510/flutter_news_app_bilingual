@@ -4,6 +4,8 @@ String? authErrorMessage(AppLocalizations l10n, String? code) {
   switch (code) {
     case 'invalidCredentials':
       return l10n.authErrorInvalidCredentials;
+    case 'signInCancelled':
+      return null;
     case 'emailInUse':
       return l10n.authErrorEmailInUse;
     case 'weakPassword':

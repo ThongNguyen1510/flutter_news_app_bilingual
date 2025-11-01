@@ -45,188 +45,204 @@ class _FeaturedCarouselState extends State<FeaturedCarousel> {
     final theme = Theme.of(context);
     final items = widget.articles.take(5).toList(growable: false);
     final indicatorColor = theme.colorScheme.secondary;
+    final textScaler = MediaQuery.of(context).textScaler;
+    final textScale = textScaler.scale(1.0);
+    final cappedTextScale = textScale.clamp(1.0, 1.10);
+    final double carouselHeight = (260 + (textScale - 1.0) * 160)
+        .clamp(260.0, 520.0);
+    final double edgePadding = 18.0;
+    final double gapSmall = 6.0;
+    final int summaryLines = 0;
 
     return Column(
       children: [
         SizedBox(
-          height: 260,
-          child: PageView.builder(
-            controller: _controller,
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              final article = items[index];
-              final date = DateFormat.MMMd(
-                widget.locale.toLanguageTag(),
-              ).format(article.publishedAt);
-              final summary = article.summaryFor(widget.locale);
-              final bullet = String.fromCharCode(0x2022);
-              final isFav = widget.isFavorite(article);
-              final l10n = AppLocalizations.of(context);
+          height: carouselHeight,
+          child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(
+              textScaler: TextScaler.linear(cappedTextScale.toDouble()),
+            ),
+            child: PageView.builder(
+              controller: _controller,
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final article = items[index];
+                final date = DateFormat.MMMd(
+                  widget.locale.toLanguageTag(),
+                ).format(article.publishedAt);
+                final summary = article.summaryFor(widget.locale);
+                final bullet = String.fromCharCode(0x2022);
+                final isFav = widget.isFavorite(article);
+                final l10n = AppLocalizations.of(context);
 
-              return GestureDetector(
-                onTap: () => widget.onArticleTap(article),
-                child: AnimatedBuilder(
-                  animation: _controller,
-                  builder: (context, child) {
-                    double value = 1.0;
-                    if (_controller.position.haveDimensions) {
-                      value = _controller.page! - index;
-                      value = (1 - (value.abs() * 0.2)).clamp(0.85, 1.0);
-                    }
-                    return Transform.scale(
-                      scale: value,
-                      alignment: Alignment.center,
-                      child: child,
-                    );
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(28),
-                      boxShadow: [
-                        BoxShadow(
-                          color: theme.colorScheme.shadow.withAlpha(
-                            (0.12 * 255).round(),
-                          ),
-                          blurRadius: 24,
-                          offset: const Offset(0, 16),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(28),
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          if (article.imageUrl.isNotEmpty)
-                            CachedNetworkImage(
-                              imageUrl: article.imageUrl,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => Container(
-                                color:
-                                    theme.colorScheme.surfaceContainerHighest,
-                                alignment: Alignment.center,
-                                child:
-                                    const CircularProgressIndicator.adaptive(),
-                              ),
-                              errorWidget: (context, url, error) => Container(
-                                color:
-                                    theme.colorScheme.surfaceContainerHighest,
-                                alignment: Alignment.center,
-                                child: Icon(
-                                  Icons.broken_image_outlined,
-                                  size: 48,
-                                  color: theme.colorScheme.onSurface.withAlpha(
-                                    (0.6 * 255).round(),
-                                  ),
-                                ),
-                              ),
-                            )
-                          else
-                            Container(
-                              color: theme.colorScheme.primary.withAlpha(
-                                (0.2 * 255).round(),
-                              ),
-                          ),
-                          Container(
-                            decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.bottomCenter,
-                                end: Alignment.topCenter,
-                                colors: [
-                                  Color(0xC0000000),
-                                  Color(0x33000000),
-                                  Colors.transparent,
-                                ],
-                              ),
+                return GestureDetector(
+                  onTap: () => widget.onArticleTap(article),
+                  child: AnimatedBuilder(
+                    animation: _controller,
+                    builder: (context, child) {
+                      double value = 1.0;
+                      if (_controller.position.haveDimensions) {
+                        value = _controller.page! - index;
+                        value = (1 - (value.abs() * 0.2)).clamp(0.85, 1.0);
+                      }
+                      return Transform.scale(
+                        scale: value,
+                        alignment: Alignment.center,
+                        child: child,
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 8),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(28),
+                        boxShadow: [
+                          BoxShadow(
+                            color: theme.colorScheme.shadow.withAlpha(
+                              (0.12 * 255).round(),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(24),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: Material(
-                                    color: Colors.black38,
-                                    shape: const CircleBorder(),
-                                    child: IconButton(
-                                      tooltip: isFav
-                                          ? l10n.favoritesRemoveTooltip
-                                          : l10n.favoritesSaveTooltip,
-                                      icon: Icon(
-                                        isFav
-                                            ? Icons.favorite
-                                            : Icons.favorite_border_outlined,
-                                      ),
-                                      color: isFav
-                                          ? theme.colorScheme.error
-                                          : Colors.white,
-                                      onPressed: () =>
-                                          widget.onToggleFavorite(article),
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 6,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: theme.colorScheme.secondary
-                                        .withAlpha((0.9 * 255).round()),
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: Text(
-                                    article.category.toUpperCase(),
-                                    style: theme.textTheme.labelMedium
-                                        ?.copyWith(
-                                          color: theme.colorScheme.onSecondary,
-                                          letterSpacing: 0.8,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                  ),
-                                ),
-                                const Spacer(),
-                                Text(
-                                  article.titleFor(widget.locale),
-                                  style: theme.textTheme.headlineSmall
-                                      ?.copyWith(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        height: 1.2,
-                                      ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const SizedBox(height: 12),
-                                Text(
-                                  summary,
-                                  style: theme.textTheme.bodyMedium?.copyWith(
-                                    color: Colors.white70,
-                                  ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const SizedBox(height: 12),
-                                Text(
-                                  '${article.source} $bullet $date',
-                                  style: theme.textTheme.labelMedium?.copyWith(
-                                    color: Colors.white70,
-                                  ),
-                                ),
-                              ],
-                            ),
+                            blurRadius: 24,
+                            offset: const Offset(0, 16),
                           ),
                         ],
                       ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(28),
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: [
+                            if (article.imageUrl.isNotEmpty)
+                              CachedNetworkImage(
+                                imageUrl: article.imageUrl,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) => Container(
+                                  color:
+                                      theme.colorScheme.surfaceContainerHighest,
+                                  alignment: Alignment.center,
+                                  child:
+                                      const CircularProgressIndicator.adaptive(),
+                                ),
+                                errorWidget: (context, url, error) => Container(
+                                  color:
+                                      theme.colorScheme.surfaceContainerHighest,
+                                  alignment: Alignment.center,
+                                  child: Icon(
+                                    Icons.broken_image_outlined,
+                                    size: 48,
+                                    color: theme.colorScheme.onSurface.withAlpha(
+                                      (0.6 * 255).round(),
+                                    ),
+                                  ),
+                                ),
+                              )
+                            else
+                              Container(
+                                color: theme.colorScheme.primary.withAlpha(
+                                  (0.2 * 255).round(),
+                                ),
+                              ),
+                            Container(
+                              decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.bottomCenter,
+                                  end: Alignment.topCenter,
+                                  colors: [
+                                    Color(0xC0000000),
+                                    Color(0x33000000),
+                                    Colors.transparent,
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.all(edgePadding),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Align(
+                                    alignment: Alignment.topRight,
+                                    child: Material(
+                                      color: Colors.black38,
+                                      shape: const CircleBorder(),
+                                      child: IconButton(
+                                        tooltip: isFav
+                                            ? l10n.favoritesRemoveTooltip
+                                            : l10n.favoritesSaveTooltip,
+                                        icon: Icon(
+                                          isFav
+                                              ? Icons.favorite
+                                              : Icons.favorite_border_outlined,
+                                        ),
+                                        color: isFav
+                                            ? theme.colorScheme.error
+                                            : Colors.white,
+                                        onPressed: () =>
+                                            widget.onToggleFavorite(article),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: gapSmall),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 4,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: theme.colorScheme.secondary
+                                          .withAlpha((0.9 * 255).round()),
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: Text(
+                                      article.category.toUpperCase(),
+                                      style: theme.textTheme.labelMedium
+                                          ?.copyWith(
+                                            color: theme.colorScheme.onSecondary,
+                                            letterSpacing: 0.8,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ),
+                                  SizedBox(height: gapSmall),
+                                  Text(
+                                    article.titleFor(widget.locale),
+                                    style: theme.textTheme.headlineSmall
+                                        ?.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          height: 1.1,
+                                        ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  if (summaryLines > 0) ...[
+                                    SizedBox(height: gapSmall),
+                                    Text(
+                                      summary,
+                                      style: theme.textTheme.bodyMedium?.copyWith(
+                                        color: Colors.white70,
+                                      ),
+                                      maxLines: summaryLines,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                  SizedBox(height: gapSmall),
+                                  Text(
+                                    '${article.source} $bullet $date',
+                                    style: theme.textTheme.labelMedium?.copyWith(
+                                      color: Colors.white70,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
         const SizedBox(height: 16),

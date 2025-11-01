@@ -5,19 +5,21 @@ import 'news_repository.dart';
 import 'news_source.dart';
 
 /// Controls fetching, filtering, and exposing the news feed state.
+/// Ghi chú (VI): Quản lý danh sách bài viết (lấy dữ liệu, lọc theo danh mục
+/// và tìm kiếm), đồng thời thông báo cho UI khi trạng thái thay đổi.
 class NewsController extends ChangeNotifier {
   NewsController(this._repository);
 
   final NewsRepository _repository;
 
-  List<NewsArticle> _articles = const [];
-  bool _isLoading = false;
-  String? _errorMessage;
-  DateTime? _lastUpdated;
-  String _selectedCategory = 'all';
-  String _searchTerm = '';
-  Locale _locale = const Locale('vi');
-  NewsSource _source = NewsSource.vietnam;
+  List<NewsArticle> _articles = const []; // Danh sách bài viết hiện tại
+  bool _isLoading = false; // Cờ đang tải dữ liệu
+  String? _errorMessage; // Lỗi (nếu có) để UI hiển thị
+  DateTime? _lastUpdated; // Thời gian cập nhật gần nhất
+  String _selectedCategory = 'all'; // Danh mục đang chọn
+  String _searchTerm = ''; // Từ khóa tìm kiếm
+  Locale _locale = const Locale('vi'); // Ngôn ngữ hiển thị
+  NewsSource _source = NewsSource.vietnam; // Nguồn tin: VN (RSS) hoặc quốc tế
 
   List<NewsArticle> get articles => _articles;
   bool get isLoading => _isLoading;
@@ -28,6 +30,7 @@ class NewsController extends ChangeNotifier {
   Locale get locale => _locale;
   NewsSource get source => _source;
 
+  // Tải danh sách bài viết từ Repository. Có thể ép làm mới (bỏ cache)
   Future<void> loadArticles({bool forceRefresh = false}) async {
     if (_isLoading && !forceRefresh) {
       return;
@@ -56,12 +59,14 @@ class NewsController extends ChangeNotifier {
     }
   }
 
+  // Cập nhật danh mục và tự động tải lại
   void updateCategory(String category) {
     if (_selectedCategory == category) return;
     _selectedCategory = category;
     loadArticles(forceRefresh: true);
   }
 
+  // Cập nhật từ khóa tìm kiếm và tự động tải lại
   void updateSearchTerm(String term) {
     final trimmed = term.trim();
     if (_searchTerm == trimmed) return;
@@ -69,12 +74,14 @@ class NewsController extends ChangeNotifier {
     loadArticles(forceRefresh: true);
   }
 
+  // Cập nhật ngôn ngữ hiển thị và tự động tải lại
   void updateLocale(Locale locale) {
     if (_locale == locale) return;
     _locale = locale;
     loadArticles(forceRefresh: true);
   }
 
+  // Cập nhật nguồn tin và locale; reset filter khi đổi nguồn
   void updateSource(NewsSource source, Locale locale) {
     bool shouldReload = _source != source || _locale != locale;
     if (_selectedCategory != 'all') {

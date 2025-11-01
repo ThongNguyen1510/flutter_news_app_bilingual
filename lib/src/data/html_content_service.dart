@@ -9,6 +9,7 @@ class HtmlContentService {
 
   final http.Client _client;
 
+  // Thử trích phần nội dung chính (HTML) của bài viết từ website bất kỳ
   Future<String?> fetchArticleHtml(String url) async {
     if (url.isEmpty) return null;
     try {
@@ -20,6 +21,7 @@ class HtmlContentService {
         utf8.decode(response.bodyBytes, allowMalformed: true),
       );
 
+      // Một số selector phổ biến để tìm phần thân bài viết
       final selectors = <String>[
         'article',
         '[itemprop="articleBody"]',
@@ -43,6 +45,7 @@ class HtmlContentService {
       contentNode ??= document.body;
       if (contentNode == null) return null;
 
+      // Loại bỏ các phần tử không cần thiết để nội dung sạch hơn
       for (final tag in ['script', 'style', 'noscript', 'svg', 'iframe']) {
         contentNode
             .querySelectorAll(tag)
@@ -62,6 +65,7 @@ class HtmlContentService {
         return html;
       }
 
+      // Nếu không có HTML hợp lệ, fallback sang text thuần và chèn <br />
       final text = contentNode.text.trim();
       if (text.isNotEmpty) {
         return text.replaceAll(RegExp(r'\n+'), '<br />');
