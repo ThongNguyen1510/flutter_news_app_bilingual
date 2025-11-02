@@ -41,3 +41,15 @@ flutter:
   generate: true
   assets:
     - assets/data/
+  
+  fonts:
+    - family: Bookerly
+      fonts:
+        - asset: "assets/fonts/Bookerly.ttf"
+        - asset: "assets/fonts/Bookerly Italic.ttf"
+          style: italic
+        - asset: "assets/fonts/Bookerly Bold.ttf"
+          weight: 700
+        - asset: "assets/fonts/Bookerly Bold Italic.ttf"
+          weight: 700
+          style: italic
