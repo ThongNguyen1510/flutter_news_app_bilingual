@@ -1,9 +1,11 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Handles user appearance preferences such as theme mode and text scaling.
 /// Ghi chú (VI): Quản lý cài đặt giao diện (theme sáng/tối, cỡ chữ) và lưu
 /// lại bằng SharedPreferences để khôi phục ở lần mở app tiếp theo.
+enum AppFontFamily { system, bookerly }
+
 class SettingsController extends ChangeNotifier {
   SettingsController() {
     _restore();
@@ -11,13 +13,16 @@ class SettingsController extends ChangeNotifier {
 
   static const _themeModeKey = 'settings_theme_mode';
   static const _textScaleKey = 'settings_text_scale';
+  static const _fontFamilyKey = 'settings_font_family';
 
   ThemeMode _themeMode = ThemeMode.system; // Chế độ theme hiện tại
   double _textScale = 1.0; // Hệ số phóng chữ (0.85 - 1.3)
+  AppFontFamily _fontFamily = AppFontFamily.system; // Font chữ
   SharedPreferences? _prefs;
 
   ThemeMode get themeMode => _themeMode;
   double get textScale => _textScale;
+  AppFontFamily get fontFamily => _fontFamily;
 
   // Đọc giá trị đã lưu từ SharedPreferences và cập nhật UI
   Future<void> _restore() async {
@@ -28,6 +33,12 @@ class SettingsController extends ChangeNotifier {
       _themeMode = _themeModeFromName(storedTheme);
     }
     _textScale = prefs.getDouble(_textScaleKey) ?? 1.0;
+    final storedFont = prefs.getString(_fontFamilyKey);
+    if (storedFont != null) {
+      _fontFamily = storedFont == 'bookerly'
+          ? AppFontFamily.bookerly
+          : AppFontFamily.system;
+    }
     notifyListeners();
   }
 
@@ -48,6 +59,18 @@ class SettingsController extends ChangeNotifier {
     notifyListeners();
     final prefs = _prefs ??= await SharedPreferences.getInstance();
     await prefs.setDouble(_textScaleKey, _textScale);
+  }
+
+  // Đổi font chữ và lưu lại
+  Future<void> setFontFamily(AppFontFamily family) async {
+    if (_fontFamily == family) return;
+    _fontFamily = family;
+    notifyListeners();
+    final prefs = _prefs ??= await SharedPreferences.getInstance();
+    await prefs.setString(
+      _fontFamilyKey,
+      family == AppFontFamily.bookerly ? 'bookerly' : 'system',
+    );
   }
 
   // Chuyển tên lưu trữ sang ThemeMode tương ứng

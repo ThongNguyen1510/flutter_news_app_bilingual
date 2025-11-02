@@ -13,6 +13,7 @@ import 'src/data/locale_controller.dart';
 import 'src/data/news_controller.dart';
 import 'src/data/news_repository.dart';
 import 'src/data/settings_controller.dart';
+
 import 'src/presentation/pages/home_page.dart';
 
 Future<void> main() async {
@@ -31,7 +32,7 @@ class NewsApp extends StatelessWidget {
   final NewsRepository _repository;
 
   // Cấu hình theme sáng (Material 3 + FlexColorScheme + Google Fonts)
-  ThemeData _buildLightTheme() {
+  ThemeData _buildLightTheme(AppFontFamily font) {
     final base = FlexThemeData.light(
       scheme: FlexScheme.espresso,
       useMaterial3: true,
@@ -46,6 +47,22 @@ class NewsApp extends StatelessWidget {
         bottomSheetElevation: 2,
       ),
     );
+    if (font == AppFontFamily.bookerly) {
+      final t = _withFontFamily(base.textTheme, 'Bookerly');
+      return base.copyWith(
+        textTheme: t,
+        primaryTextTheme: t,
+        appBarTheme: base.appBarTheme.copyWith(
+          centerTitle: false,
+          elevation: 0,
+        ),
+        cardTheme: base.cardTheme.copyWith(
+          elevation: 0,
+          margin: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        ),
+      );
+    }
     final textTheme = GoogleFonts.openSansTextTheme(base.textTheme);
     final displayTheme = GoogleFonts.playfairDisplayTextTheme(base.textTheme);
     return base.copyWith(
@@ -68,7 +85,7 @@ class NewsApp extends StatelessWidget {
   }
 
   // Cấu hình theme tối tương tự theme sáng
-  ThemeData _buildDarkTheme() {
+  ThemeData _buildDarkTheme(AppFontFamily font) {
     final base = FlexThemeData.dark(
       scheme: FlexScheme.espresso,
       useMaterial3: true,
@@ -80,6 +97,19 @@ class NewsApp extends StatelessWidget {
         bottomSheetRadius: 24,
       ),
     );
+    if (font == AppFontFamily.bookerly) {
+      final t = _withFontFamily(base.textTheme, 'Bookerly');
+      return base.copyWith(
+        textTheme: t,
+        primaryTextTheme: t,
+        appBarTheme: base.appBarTheme.copyWith(centerTitle: false),
+        cardTheme: base.cardTheme.copyWith(
+          elevation: 0,
+          margin: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        ),
+      );
+    }
     final textTheme = GoogleFonts.openSansTextTheme(base.textTheme).apply(
       bodyColor: base.colorScheme.onSurface,
       displayColor: base.colorScheme.onSurface,
@@ -132,14 +162,14 @@ class NewsApp extends StatelessWidget {
               GlobalCupertinoLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
             ],
-            theme: _buildLightTheme(),
-            darkTheme: _buildDarkTheme(),
+            theme: _buildLightTheme(settingsController.fontFamily),
+            darkTheme: _buildDarkTheme(settingsController.fontFamily),
             themeMode: settingsController.themeMode,
             builder: (context, child) {
               final media = MediaQuery.of(context);
               return MediaQuery(
                 data: media.copyWith(
-                  // Điều chỉnh cỡ chữ theo SettingsController
+                  // Điều chỉnh cỡ chữ theo SettingsController (dùng textScaler mới)
                   textScaler: TextScaler.linear(settingsController.textScale),
                 ),
                 child: child ?? const SizedBox.shrink(),
@@ -151,4 +181,25 @@ class NewsApp extends StatelessWidget {
       ),
     );
   }
+}
+
+// Áp dụng fontFamily cho toàn bộ TextTheme hiện có
+TextTheme _withFontFamily(TextTheme base, String family) {
+  return base.copyWith(
+    displayLarge: base.displayLarge?.copyWith(fontFamily: family),
+    displayMedium: base.displayMedium?.copyWith(fontFamily: family),
+    displaySmall: base.displaySmall?.copyWith(fontFamily: family),
+    headlineLarge: base.headlineLarge?.copyWith(fontFamily: family),
+    headlineMedium: base.headlineMedium?.copyWith(fontFamily: family),
+    headlineSmall: base.headlineSmall?.copyWith(fontFamily: family),
+    titleLarge: base.titleLarge?.copyWith(fontFamily: family),
+    titleMedium: base.titleMedium?.copyWith(fontFamily: family),
+    titleSmall: base.titleSmall?.copyWith(fontFamily: family),
+    labelLarge: base.labelLarge?.copyWith(fontFamily: family),
+    labelMedium: base.labelMedium?.copyWith(fontFamily: family),
+    labelSmall: base.labelSmall?.copyWith(fontFamily: family),
+    bodyLarge: base.bodyLarge?.copyWith(fontFamily: family),
+    bodyMedium: base.bodyMedium?.copyWith(fontFamily: family),
+    bodySmall: base.bodySmall?.copyWith(fontFamily: family),
+  );
 }

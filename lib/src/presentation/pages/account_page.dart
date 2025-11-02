@@ -230,6 +230,30 @@ class _AppearanceCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.font_download_outlined),
+              title: const Text('Phông chữ'),
+              trailing: DropdownButtonHideUnderline(
+                child: DropdownButton<AppFontFamily>(
+                  value: settings.fontFamily,
+                  onChanged: (value) {
+                    if (value != null) settings.setFontFamily(value);
+                  },
+                  items: const [
+                    DropdownMenuItem(
+                      value: AppFontFamily.system,
+                      child: Text('Mặc định'),
+                    ),
+                    DropdownMenuItem(
+                      value: AppFontFamily.bookerly,
+                      child: Text('Bookerly'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
             Text(
               l10n.textSizeLabel,
               style: theme.textTheme.bodyLarge,
